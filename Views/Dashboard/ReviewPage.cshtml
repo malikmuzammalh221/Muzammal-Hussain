@@ -1,0 +1,45 @@
+﻿@model fortest.Models.DashboardViewModel
+@{
+    ViewBag.Title = "PropertyPage";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card mt-4">
+    <div class="card-header">
+        <a class="float-end btn btn-primary" href="@Url.Action("UploadReview","Reviews")">Add Review</a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th class="border">File</th>
+                    <th class="border">Name</th>
+                    <th class="border">Location</th>
+                    <th class="border">Rating</th>
+                    <th class="border">Review</th>
+                    <th class="border">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.ReviewModels)
+                {
+                    <tr>
+                        <td class="border">@item.RevFile.Replace("~/","")</td>
+                        <td class="border">@item.RevName</td>
+                        <td class="border">@item.RevLocation</td>
+                        <td class="border">@item.RevRating</td>
+                        <td class="border">
+                            @(item.RevReviewDetail.Length >20
+                            ? item.RevReviewDetail.Substring(0,20)+"..."
+                            : item.RevReviewDetail)
+                        </td>
+                        <td class="border">@item.isCreated</td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</div>

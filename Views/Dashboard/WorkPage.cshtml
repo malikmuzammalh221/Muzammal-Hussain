@@ -1,0 +1,40 @@
+﻿@model fortest.Models.DashboardViewModel
+@{
+    ViewBag.Title = "WorkPage";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card mt-4">
+    <div class="card-header">
+        <a class="btn btn-primary float-end" href="@Url.Action("Work", "Work")">
+            Add New Works
+        </a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th class="border">Icon File</th>
+                    <th class="border">Title</th>
+                    <th class="border">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.HowWorkModels)
+                {
+                    <tr>
+                        <td class="border">@item.Icon</td>
+                        <td class="border">@item.Name</td>
+                        <td class="border">
+                            @(item.Description.Length > 18
+                            ? item.Description.Substring(0, 18) + "..."
+                            : item.Description)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+﻿@model fortest.Models.DashboardViewModel
+@{
+    ViewBag.Title = "PropertyPage";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .imgS {
+        height: 40px;
+        width: 40px;
+    }
+    .pagination-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination-container .page-link {
+        padding: 5px 10px;
+        margin: 0 5px;
+        text-decoration: none;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .pagination-container .page-link.active {
+        background: #0056b3;
+        font-weight: bold;
+    }
+
+    .pagination-container .page-link:hover {
+        background: #003d7a;
+    }
+</style>
+<div class="card mt-4">
+    <div class="card-header">
+        <a class="btn btn-primary float-end" href="@Url.Action("AddProperty", "AddProperty")">
+            Add Property
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6 col-md-6">
+                <select id="category" class="form-select mb-3">
+                    <option value="">Select search Type</option>
+                    <option value="House">House</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Office">Office</option>
+                </select>
+            </div>
+            <div class="col-3 col-md-2">
+                <button class="btn btn-primary w-100" id="SearchButton">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ResultTable" style="display:none">
+    <div class="card">
+        <div class="card-body">
+            <h2>Search Result</h2>
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="border">File</th>
+                        <th class="border">Name</th>
+                        <th class="border">Rating</th>
+                        <th class="border">Price</th>
+                        <th class="border">Type</th>
+                        <th class="border">Agent Id</th>
+                        <th class="border">Description</th>
+                        <th class="border">Date</th>
+                    </tr>
+                </thead>
+                <tbody id="SearchResult">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card" id="properties">
+    <div class="card-body">
+        <h2>All Properties :@ViewBag.PropertyList</h2>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th class="border">File</th>
+                    <th class="border">Name</th>
+                    <th class="border">Rating</th>
+                    <th class="border">Price</th>
+                    <th class="border">Type</th>
+                    <th class="border">Agent Id</th>
+                    <th class="border">Description</th>
+                    <th class="border">Date</th>
+                    <th class="border">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ExplorModels)
+                {
+                    <tr>
+                        <td class="border"><img class="imgS" src="@item.ExpFile.Replace("~", "")" /></td>
+                        <td class="border">@item.ExpName</td>
+                        <td class="border">@item.ExpRating</td>
+                        <td class="border">@item.ExpPrice</td>
+                        <td class="border">@item.ExpType</td>
+                        <td class="border">@item.UserId</td>
+                        <td class="border">
+                            @(item.ExpDescription.Length > 18
+                            ? item.ExpDescription.Substring(0, 18) + "..."
+                            : item.ExpDescription)
+                        </td>
+                        <td class="border">@item.isCreated</td>
+                        <td>
+                            <a href="@Url.Action("DeleteProperty", new {ExploreId=item.ExploreId})" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <div class="pagination-container">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="@Url.Action("PropertyPage", new { Page = ViewBag.CurrentPage - 1 })" class="page-link btn btn-primary">Previous</a>
+            }
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <a class="page-link @(ViewBag.CurrentPage == i ? "active" : "")" href="@Url.Action("PropertyPage", new { Page = i })">@i</a>
+            }
+            @if (ViewBag.CurrentPage < ViewBag.TotalPage)
+            {
+                <a href="@Url.Action("PropertyPage", new { Page = ViewBag.CurrentPage + 1 })" class="page-link btn btn-primary">Next</a>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#SearchButton").click(function () {
+            var category = $("#category").val();
+            $.ajax({
+                url: '/Dashboard/SearchProperty',
+                type: 'GET',
+                data: { category: category },
+                success: function (response) {
+                    if (response.success) {
+                        $("#ResultTable").show();
+                        $("#properties").hide();
+                        var SearchResult = $("#SearchResult");
+                        var resultsHtml = '';
+
+                        if (response.properties.length > 0) {
+                            response.properties.forEach(property => {
+                                resultsHtml += `
+                                <tr>
+                                    <td class="border"><img class="imgS" src="${property.ExpFile.replace("~", "")}" /></td>
+                                    <td class="border">${property.ExpName}</td>
+                                    <td class="border">${property.ExpRating}</td>
+                                    <td class="border">${property.ExpPrice}</td>
+                                    <td class="border">${property.ExpType}</td>
+                                    <td class="border">${property.UserId}</td>
+                                    <td class="border">
+                                        ${property.ExpDescription.length > 18
+                                        ? property.ExpDescription.substring(0, 18) + "..."
+                                        : property.ExpDescription}
+                                    </td>
+                                    <td class="border">${property.isCreated.replace("/Date","")}</td>
+                                </tr>`;
+                            });
+                        } else {
+                            resultsHtml = '<tr><td colspan="8">No matching properties found.</td></tr>';
+                        }
+
+                        SearchResult.html(resultsHtml);
+                    } else {
+                        alert("No properties found.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while searching.");
+                }
+            });
+        });
+    });
+</script>

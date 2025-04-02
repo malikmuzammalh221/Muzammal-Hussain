@@ -1,0 +1,43 @@
+﻿@model fortest.Models.DashboardViewModel
+@{
+    ViewBag.Title = "PropertyPage";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card mt-4">
+    <div class="card-header">
+        <a class="float-end btn btn-primary" href="@Url.Action("AddArticle","Article")">Add Article</a>
+    </div>
+</div>
+<div class="card">
+    <h2>Article List : @ViewBag.ArticleList</h2>
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>File</th>
+                    <th>Title</th>
+                    <th>Posted By</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.ArticleModels)
+                {
+                    <tr>
+                        <td>@item.ArtFile</td>
+                        <td>@item.ArtName</td>
+                        <td>@item.ArtPostedBy</td>
+                        <td>@item.ArtDate</td>
+                        <td>
+                            @(item.ArtDetails.Length >15
+                            ? item.ArtDetails.Substring(0,15) +"..."
+                            : item.ArtDetails)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
