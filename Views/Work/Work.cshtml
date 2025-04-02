@@ -1,0 +1,59 @@
+﻿@model fortest.Context.HowWork
+@{
+    ViewBag.Title = "Work";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("Works", "Work", FormMethod.Post))
+{
+    <section class="add-Work">
+        <div class="card" style="border-radius:unset">
+            <div class="row">
+                <div class="col col-8 col-sm-8 col-lg-8">
+                    <h3 class="m-3">Add Works</h3>
+                </div>
+                <div class="col col-4 col-sm-4 col-lg-4 mt-4">
+                    <nav class="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Dashboard")">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("WorkPage","Dashboard")">Works</a></li>
+                            <li class="breadcrumb-item active">Add Works</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                        <label for="Name" class="form-label">Add Title</label>
+                        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter property name" } })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                        <label for="Icon" class="form-label">Add Icon Name</label>
+                        @Html.EditorFor(m => m.Icon, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Icon name" } })
+                        @Html.ValidationMessageFor(m => m.Icon, "", new { @class = "text-danger" })
+                        <div class="img-fluid">
+                            <div>
+                                Add icon from Font Awesome:<a target=”blank” href="https://fontawesome.com/icons">Click here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                        <label for="ExpDescription" class="form-label">Description</label>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "4", placeholder = "Write description" })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <input type="submit" value="Submit" class="btn btn-success px-4" />
+                </div>
+            </div>
+        </div>
+    </section><!--/.welcome-hero-->
+}
