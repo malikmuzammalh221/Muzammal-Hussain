@@ -1,0 +1,134 @@
+﻿@model fortest.Context.Explore
+@{
+    ViewBag.Title = "Add Property";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("AddPropertys", "AddProperty", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="add-property">
+    <div class="card" style="border-radius:unset">
+        <div class="row">
+            <div class="col col-8 col-sm-8 col-lg-8">
+                <h3 class="m-3">Add Property</h3>
+            </div>
+            <div class="col col-4 col-sm-4 col-lg-4 mt-4">
+                <nav class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Dashboard")">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("PropertyPage","Dashboard")">Properties Page</a></li>
+                        <li class="breadcrumb-item active">Add Property</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow-sm shadow-lg" style="margin-inline:10px">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ExpName" class="form-label">Property Name</label>
+                    @Html.EditorFor(m => m.ExpName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter property name" } })
+                    @Html.ValidationMessageFor(m => m.ExpName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-m-6 col-sm-12">
+                    <label for="ExpPrice" class="form-label">Property Price</label>
+                    @Html.EditorFor(m => m.ExpPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter property price" } })
+                    @Html.ValidationMessageFor(m => m.ExpPrice, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-sm-12 col-md-6">
+                    <label for="ExpType" class="form-label">Property Type</label>
+                    @Html.DropDownListFor(m => m.ExpType,
+                        new SelectList(new[]
+                        {
+                            new { Value = "Restaurant", Text = "Restaurant" },
+                            new { Value = "Office", Text = "Office" },
+                            new { Value = "House", Text = "House" },
+                            new { Value = "Hotel", Text = "Hotel" }
+                        }, "Value", "Text"),
+                        "Select Property Type",
+                        new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(m => m.ExpType, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-sm-12 col-md-6">
+                    <label for="ExpRating" class="form-label">Property Rating</label>
+                    @Html.DropDownListFor(m => m.ExpRating,
+                        new SelectList(new[]
+                        {
+                            new { Value = "1", Text = "1" },
+                            new { Value = "2", Text = "2" },
+                            new { Value = "3", Text = "3" },
+                            new { Value = "4", Text = "4" },
+                            new { Value = "5", Text = "5" }
+                        }, "Value", "Text"),
+                        "--Select Property Rating--",
+                        new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(m => m.ExpRating, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ExpDescription" class="form-label">Property Description</label>
+                    @Html.TextAreaFor(m => m.ExpDescription, new { @class = "form-control", rows = "4", placeholder = "Enter property description" })
+                    @Html.ValidationMessageFor(m => m.ExpDescription, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-sm-12 col-m-6 col-md-6">
+                    <label for="Purpose" class="form-label">Select Purpose</label>
+                    @Html.DropDownListFor(m => m.Purpose,
+                        new SelectList(new[]
+                        {
+                            new { Value = "Sale", Text = "Sale" },
+                            new { Value = "Rent", Text = "Rent" }
+                        }, "Value", "Text"),
+                        "--Select Property Purpose--",
+                        new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(m => m.Purpose, "", new { @class = "text-danger" })
+                </div>
+            </div>
+                            
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="ExpFile" class="form-label">Add Picture</label>
+                    <input type="file" name="ExpFile" id="Picture" class="form-control" accept="image/*" onchange="previewImage(event)" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <span>Image Preview</span>
+                    <img id="imagePreview" class="img-thumbnail" src="#" alt="Image Preview" style="display:none; max-width: 200px;" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <input type="submit" value="Submit" class="btn btn-success px-4" />
+        </div>
+    </div>
+    </div>
+
+    </section><!--/.welcome-hero-->
+    
+
+}
+
+<!-- JavaScript for Image Preview -->
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
+
