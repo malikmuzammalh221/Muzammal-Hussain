@@ -1,0 +1,90 @@
+﻿@model fortest.Context.Article
+@{
+    ViewBag.Title = "AddArticle";
+    Layout = "../Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("AddArticle", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<section class="add-Articles">
+    <div class="card" style="border-radius:unset">
+        <div class="row">
+            <div class="col col-8 col-sm-8 col-lg-8">
+                <h3 class="m-3">Add Article Details</h3>
+            </div>
+            <div class="col col-4 col-sm-4 col-lg-4 mt-4">
+                <nav class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Dashboard")">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("ArticlePage","Dashboard")">Articles Page</a></li>
+                        <li class="breadcrumb-item active">Add Article Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ArtName" class="form-label">Article Name</label>
+                    @Html.EditorFor(m => m.ArtName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Article name" } })
+                    @Html.ValidationMessageFor(m => m.ArtName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ArtPostedBy" class="form-label">Role Type</label>
+                    @Html.DropDownListFor(m => m.ArtPostedBy,
+                        new SelectList(new[]
+                        {
+                            new { Value = "Admin", Text = "Admin" },
+                            new { Value = "User", Text = "User" }
+                        }, "Value", "Text"),
+                        "Select Role Type",
+                        new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(m => m.ArtPostedBy, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ArtDetails" class="form-label">Article Description</label>
+                    @Html.TextAreaFor(m => m.ArtDetails, new { @class = "form-control", rows = "6", placeholder = "Enter article description" })
+                    @Html.ValidationMessageFor(m => m.ArtDetails, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label for="ArtFile" class="form-label">Add Picture</label>
+                    <input type="file" name="ArtFile" id="Picture" class="form-control" accept="image/*" onchange="previewImage(event)" />
+                    <br />
+                    <span>Image Preview</span>
+                    <img id="imagePreview" class="img-thumbnail" src="#" alt="Image Preview" style="display:none; max-width: 200px;" />
+                </div>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <input type="submit" value="Create" class="btn btn-success px-4" />
+            </div>
+        </div>
+    </div>
+</section><!--/.welcome-hero-->
+    
+
+}
+
+<!-- JavaScript for Image Preview -->
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
+
