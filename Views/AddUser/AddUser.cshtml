@@ -1,0 +1,64 @@
+﻿@model fortest.Context.User
+@{
+    ViewBag.Title = "Add User";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddUser", "AddUser", FormMethod.Post))
+{
+    <section class="add-User">
+            <div class="justify-content-center align-items-center d-flex">
+                <div class="card shadow-sm shadow-lg m-5 " style="margin-inline:10px; width:400px;">
+                    <div class="card-header">
+                        <h2 class="align-content-center">Add User</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+
+                            <div class="form-group">
+                                <label for="Name" class="form-label">Name</label>
+                                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Name" } })
+                                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="UserId" class="form-label">Username</label>
+                                @Html.EditorFor(m => m.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Username" } })
+                                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="Password" class="form-label">Password</label>
+                                @Html.EditorFor(m => m.Password, new { HtmlAttributes = new { @class = "form-control", placeholder = "Enter Password" } })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div>
+                                <label class="form-group">Select Type</label>
+                                @Html.DropDownListFor(m => m.Role,
+                                    new SelectList(new[]
+                                    {
+                                        new{ Value="3", text="User"},
+                                        new{ Value="2", text="Agent"}
+                                    }, "Value", "text"),
+                                    "Select Type",
+                                    new { @class = "" })
+                            </div>
+
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Submit" class="btn btn-success px-4" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    
+
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
