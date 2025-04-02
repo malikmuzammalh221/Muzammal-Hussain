@@ -1,0 +1,50 @@
+﻿@model List<fortest.Context.User>
+@{
+    ViewBag.Title = "AgentProfile";
+    Layout = "../Shared/_LayoutAgent.cshtml";
+}
+
+<div class="align-content-center d-flex justify-content-center">
+    <div class="card shadow shadow-lg shadow-sm mt-5">
+        <div class="card-header" style="width:none;">
+            <h2 class="text-center m-1">Profile</h2>
+        </div>
+        <div class="card-body">
+            <div>
+                
+                <table class="table">
+                    @foreach (var item in Model)
+                    {
+                        <thead>
+                            <tr>
+                                <td><h2>Name:</h2></td>
+                                <td>@item.Name</td>
+                                @*@ViewBag.Username*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><h2>Type:</h2></td>
+                                <td>Agent</td>
+                            </tr>
+                            <tr>
+                                <td><h2>Username:</h2></td>
+                                <td>@item.Username</td>
+                            </tr>
+                            <tr>
+                                <td><h2>Password:</h2></td>
+                                <td>@item.Password</td>
+                            </tr>
+                            <tr>
+                                <td><h2>Created Date:</h2></td>
+                                <td>@item.CreatedOn</td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
