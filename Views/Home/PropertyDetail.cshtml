@@ -1,0 +1,58 @@
+﻿@model fortest.Context.Explore
+@{
+    ViewBag.Title = "Property Details";
+    Layout = "../Shared/_Layout.cshtml";
+    var propertyId = Request.QueryString["ExploreId"];
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h1>Property Details</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <img src="@Model.ExpFile.Replace("~", "")" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <h2></h2>
+            <p><strong>Type:</strong>@Model.ExpType </p>
+            <p><strong>Price:</strong>@Model.ExpPrice </p>
+            <p><Strong>Rating:</Strong>
+                <div class="stars">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Model.ExpRating)
+                        {
+                            @:★
+                        }
+                        else
+                        {
+                            @:☆
+                        }
+                    }
+                </div>
+            </p>
+            <p><strong>Description:</strong>@Model.ExpDescription</p>
+            <p></p>
+
+            <div class="mt-4">
+                <a href="" class="btn btn-primary">Contact Us</a>
+                <a href="@Url.Action("Index","Home")" class="btn btn-secondary">Back to Properties</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 900px;
+    }
+
+    img {
+        max-height: 400px;
+        object-fit: cover;
+    }
+</style>
