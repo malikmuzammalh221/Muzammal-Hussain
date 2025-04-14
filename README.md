@@ -1,7 +1,7 @@
 Prime Estate Project
 
 Prime Estate Project is a web-based application designed in ASP.NET to facilitate real estate transactions, enabling users to buy, sell,
-and rent properties seamlessly. Developed using a combination of JavaScript, HTML, BootStrap, JavaScript, Ajax and C#, this project aims to provide a user-friendly
+and rent properties seamlessly. Developed using a combination of JavaScript, HTML, BootStrap, Ajax and C#, this project aims to provide a user-friendly
 platform for managing real estate listings and inquiries.​
 Features
 
